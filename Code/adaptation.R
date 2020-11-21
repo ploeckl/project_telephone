@@ -1,17 +1,20 @@
 rm(list = ls(all = TRUE))
-library(spdep)
+library(spatialreg)
 source('C:\\Box\\Research\\Telephone\\project_telephone\\Code\\outreg.r')
 
 
+##Read in Data sets
+Towns<-read.csv("C:\\Box\\Research\\Telephone\\project_telephone\\Data\\Towns.csv", header=TRUE) 
+MatInvDistSq<-read.csv("C:\\Box\\Research\\Telephone\\project_telephone\\Data\\MatInvDistSq.csv", header=TRUE, row.names = 1) 
 
-Towns<-read.csv("C:\\Box\\Research\\Telephone\\Data\\Input\\Towns.csv", header=TRUE) 
-MatInvDistSq<-read.csv("C:\\Box\\Research\\Telephone\\Data\\Input\\MatInvDistSq.csv", header=TRUE, row.names = 1) 
-#source('C:\\Box\\Research\\Telephone\\Code\\Data.r')
-MatInvDistSq<-as.matrix(MatInvDistSq)
+#source('C:\\Box\\Research\\Telephone\\Code\\Data.r') / remove after bringing data over
+
+##clean data
+MatInvDistSq<-as.matrix(MatInvDistSq)  #confirm data in matrix form
+Main<-Towns$Region!='PF'               #remove Pfalz from analysis    
 
 
 
-Main<-Towns$Region!='PF'
 
 #rescale population to make coefficients readable
 
