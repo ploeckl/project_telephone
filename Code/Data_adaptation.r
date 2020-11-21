@@ -20,7 +20,7 @@ Population<-read.csv("C:\\Box\\Research\\Telephone\\project_telephone\\Data\\Inp
  
 Population<-as.data.frame(Population)
 
-colnames(Population)<-c("Town","County","BezirkNR","Bezirk","Y1840","Y1875","Y1880","Y1885","Y1890","Y1895","Y1900","Y1905","Y1910","Region","Longitude","Latitude","NNID","NameGNU","PostOffice","PostRevenues","PostBahn","Bahnbezirk","RankRailWeight","TotalRailWeight","SentRailWeight","RankRailRevenues","RailRevenues","CollectedNachnahme","PaidOutNachnahme")
+colnames(Population)<-c("Town","County","BezirkNR","Bezirk","Y1840","Y1875","Y1880","Y1885","Y1890","Y1895","Y1900","Y1905","Y1910","Region","Longitude","Latitude","NNID","NameGNU","PostOffice","PostRevenues","PostBahn","Bahnbezirk","RankRailWeight","TotalRailWeight","SentRailWeight","RankRailRevenues","RailRevenues","CollectedNachnahme","PaidOutNachnahme","TelegraphRevenues","Post_1900","Telegraph_1900")
 Population$Town<-as.character(Population$Town)
 Population$Bezirk<-as.character(Population$Bezirk)
 
