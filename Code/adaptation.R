@@ -1,6 +1,6 @@
 rm(list = ls(all = TRUE))
 library(spdep)
-source('C:\\Box\\Research\\Code\\Routines\\outreg.r')
+source('C:\\Box\\Research\\Telephone\\project_telephone\\Code\\outreg.r')
 
 
 
