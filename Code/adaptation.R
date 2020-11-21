@@ -1,5 +1,6 @@
 rm(list = ls(all = TRUE))
 library(spatialreg)
+library(spdep)
 source('C:\\Box\\Research\\Telephone\\project_telephone\\Code\\outreg.r')
 
 
