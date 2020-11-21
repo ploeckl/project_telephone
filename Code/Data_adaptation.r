@@ -1,3 +1,6 @@
+
+#########important: update csv data source links !!!!!!!!!!!!!!!
+
                                 
 library("foreign")
 library(quantreg)
@@ -7,7 +10,7 @@ rm(list = ls(all = TRUE))
 
 #Source Gewerbe Information############################################################################
 
-source('C:\\Box\\Research\\Telephone\\Code\\DataGewerbe.r')
+source('C:\\Box\\Research\\Telephone\\project_telephone\\Code\\Dataprep_gewerbe.r')
 
 
 
@@ -466,5 +469,5 @@ names(FullPairs1900)<-c("Lines1","Lines2","Distance","Calls")
 ###Save Data files############################################################################################
 
 
-write.csv(Towns,"C:\\Box\\Research\\Telephone\\Data\\Input\\Towns.csv") 
-write.csv(MatInvDistSq,"C:\\Box\\Research\\Telephone\\Data\\Input\\MatInvDistSq.csv") 
+write.csv(Towns,"C:\\Box\\Research\\Telephone\\project_telephone\\Data\\Towns.csv") 
+write.csv(MatInvDistSq,"C:\\Box\\Research\\Telephone\\project_telephone\\Data\\MatInvDistSq.csv") 
