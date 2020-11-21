@@ -1,14 +1,14 @@
 library("foreign")
 
 #Load Bezirke Gewerbe Information ############################################################################
-MF<-read.csv("C:\\Box\\Research\\Telephone\\Data\\CSV\\GewerbeMF.csv", header=FALSE)
-NB<-read.csv("C:\\Box\\Research\\Telephone\\Data\\CSV\\GewerbeNB.csv", header=FALSE)
-OB<-read.csv("C:\\Box\\Research\\Telephone\\Data\\CSV\\GewerbeOB.csv", header=FALSE)
-OF<-read.csv("C:\\Box\\Research\\Telephone\\Data\\CSV\\GewerbeOF.csv",header=FALSE)
-OP<-read.csv("C:\\Box\\Research\\Telephone\\Data\\CSV\\GewerbeOP.csv", header=FALSE)
-PF<-read.csv("C:\\Box\\Research\\Telephone\\Data\\CSV\\GewerbePF.csv", header=FALSE)
-SC<-read.csv("C:\\Box\\Research\\Telephone\\Data\\CSV\\GewerbeSC.csv", header=FALSE)
-UF<-read.csv("C:\\Box\\Research\\Telephone\\Data\\CSV\\GewerbeUF.csv", header=FALSE)
+MF<-read.csv("C:\\Box\\Research\\Telephone\\project_telephone\\Data\\Input\\GewerbeMF.csv", header=FALSE)
+NB<-read.csv("C:\\Box\\Research\\Telephone\\project_telephone\\Data\\Input\\GewerbeNB.csv", header=FALSE)
+OB<-read.csv("C:\\Box\\Research\\Telephone\\project_telephone\\Data\\Input\\GewerbeOB.csv", header=FALSE)
+OF<-read.csv("C:\\Box\\Research\\Telephone\\project_telephone\\Data\\Input\\GewerbeOF.csv",header=FALSE)
+OP<-read.csv("C:\\Box\\Research\\Telephone\\project_telephone\\Data\\Input\\GewerbeOP.csv", header=FALSE)
+PF<-read.csv("C:\\Box\\Research\\Telephone\\project_telephone\\Data\\Input\\GewerbePF.csv", header=FALSE)
+SC<-read.csv("C:\\Box\\Research\\Telephone\\project_telephone\\Data\\Input\\GewerbeSC.csv", header=FALSE)
+UF<-read.csv("C:\\Box\\Research\\Telephone\\project_telephone\\Data\\Input\\GewerbeUF.csv", header=FALSE)
 
 Gewerbe1882Raw<-cbind(MF[,seq(4,dim(MF)[2],3)],NB[,seq(4,dim(NB)[2],3)],OB[,seq(4,dim(OB)[2],3)],OF[,seq(4,dim(OF)[2],3)],OP[,seq(4,dim(OP)[2],3)],PF[,seq(4,dim(PF)[2],3)],SC[,seq(4,dim(SC)[2],3)],UF[,seq(4,dim(UF)[2],3)])
 names1882<-as.character(as.data.frame(t(Gewerbe1882Raw))[,1])
@@ -48,7 +48,7 @@ Gewerbe1907[14,]<-Gewerbe1907[14,]+Gewerbe1907[15,]
 Gewerbe1907<-Gewerbe1907[c(1:10,12:14,16:dim(Gewerbe1907)[1]),]
                                               
 #Load BezirkPopulation#########################################################################
-BezirkPopulation<-read.csv("C:\\Box\\Research\\Telephone\\Data\\CSV\\BezirkPopulation.csv", header=TRUE)
+BezirkPopulation<-read.csv("C:\\Box\\Research\\Telephone\\project_telephone\\Data\\Input\\BezirkPopulation.csv", header=TRUE)
 BezirkPopulation<-as.data.frame(BezirkPopulation)
 BezirkPopulation<-BezirkPopulation[BezirkPopulation$BezirkNr>0,]
 
@@ -126,7 +126,7 @@ Bezirke$IndexDisSim07<-sapply(Bezirke$BezirkNr,IndexDisSim,y=BavariaTotalEmp1907
 #Merge Bezirk & Wahlkreisee##########################################################################
 
 
-Wahlkreise<-read.csv("C:\\Box\\Research\\Telephone\\Data\\CSV\\Wahlkreise.csv", header=TRUE)
+Wahlkreise<-read.csv("C:\\Box\\Research\\Telephone\\project_telephone\\Data\\Input\\Wahlkreise.csv", header=TRUE)
 Wahlkreise<-as.data.frame(Wahlkreise)
 KreisListe<-Bezirke$Wahlkreis
 

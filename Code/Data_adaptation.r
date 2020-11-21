@@ -1,3 +1,6 @@
+
+#########important: update csv data source links !!!!!!!!!!!!!!!
+
                                 
 library("foreign")
 library(quantreg)
@@ -7,13 +10,13 @@ rm(list = ls(all = TRUE))
 
 #Source Gewerbe Information############################################################################
 
-source('C:\\Box\\Research\\Telephone\\Code\\DataGewerbe.r')
+source('C:\\Box\\Research\\Telephone\\project_telephone\\Code\\Dataprep_gewerbe.r')
 
 
 
 #Load Towns Population Information############################################################################
 
-Population<-read.csv("C:\\Box\\Research\\Telephone\\Data\\CSV\\Population.csv", header=TRUE)
+Population<-read.csv("C:\\Box\\Research\\Telephone\\project_telephone\\Data\\Input\\Population.csv", header=TRUE)
  
 Population<-as.data.frame(Population)
 
@@ -24,7 +27,7 @@ Population$Bezirk<-as.character(Population$Bezirk)
 
 #Load Time since Exchange opening############################################################################ 
 
-Install<-read.csv("C:\\Box\\Research\\Telephone\\Data\\CSV\\Anlagen.csv", header=TRUE)
+Install<-read.csv("C:\\Box\\Research\\Telephone\\project_telephone\\Data\\Input\\Anlagen.csv", header=TRUE)
 
 Install<-as.data.frame(Install)
  Install$Town<-as.character(Install$Town)
@@ -35,7 +38,7 @@ Install$M1905<-(1905-Install$Year)*12+(12-Install$Month)+1
 
 #Create Town Characteristics 1896############################################################################ 
 
-Towns1896<-read.csv("C:\\Box\\Research\\Telephone\\Data\\CSV\\Towns1896.csv", header=TRUE)
+Towns1896<-read.csv("C:\\Box\\Research\\Telephone\\project_telephone\\Data\\Input\\Towns1896.csv", header=TRUE)
  Towns1896<-as.data.frame(Towns1896)
  colnames(Towns1896)<-c("Town","Latitude","Longitude","Privat","Government","Public","Participants","MainLines","LocalCallsPrivate","LocalCallsPublic")
 Towns1896$Town<-as.character(Towns1896$Town)
@@ -59,7 +62,7 @@ Towns1896$Penetration<-Towns1896$MainLines/Towns1896$Population
                                                
  #Create Town Characteristics 1900############################################################################
 
-Towns1900<-read.csv("C:\\Box\\Research\\Telephone\\Data\\CSV\\Towns1900.csv", header=TRUE)
+Towns1900<-read.csv("C:\\Box\\Research\\Telephone\\project_telephone\\Data\\Input\\Towns1900.csv", header=TRUE)
  Towns1900<-as.data.frame(Towns1900)
  colnames(Towns1900)<-c("Town","Latitude","Longitude","Privat","Government","Public","Participants","MainLines", "LocalCallsBausch", "LocalCallsBasic","LocalCallsPublic","DistanceCallsPrivat","DistanceCallsGovernment","DistanceCallsPublic","DistanceCallsPrivatFees")
 Towns1900$Lines<-Towns1900$Privat+Towns1900$Government+Towns1900$Public
@@ -85,7 +88,7 @@ Towns1900$Penetration<-Towns1900$MainLines/Towns1900$Population
 #Create Town Characteristics 1905############################################################################
 
 
-Towns1905<-read.csv("C:\\Box\\Research\\Telephone\\Data\\CSV\\Towns1905.csv", header=TRUE)
+Towns1905<-read.csv("C:\\Box\\Research\\Telephone\\project_telephone\\Data\\Input\\Towns1905.csv", header=TRUE)
  Towns1905<-as.data.frame(Towns1905)
 colnames(Towns1905)<-c("Town","Privat","Government","Public","Lines","Participants","MainLines")
 
@@ -322,7 +325,7 @@ Towns$MarketDistance1880<-MatDist%*%MainTowns
 ###############################################################################################
 
 
-Pairs1896<-read.csv("C:\\Box\\Research\\Telephone\\Data\\CSV\\Matrix1896.csv", header=TRUE)
+Pairs1896<-read.csv("C:\\Box\\Research\\Telephone\\project_telephone\\Data\\Input\\Matrix1896.csv", header=TRUE)
 colnames(Pairs1896)<-c("Town1","Town2","Calls","Connection")
 
 Pairs1896<-as.data.frame(Pairs1896)
@@ -393,7 +396,7 @@ names(FullPairs1896)<-c("Lines1","Lines2","Distance","Calls")
 
 ###############################################################################################################
 
-Pairs1900<-read.csv("C:\\Box\\Research\\Telephone\\Data\\CSV\\Matrix1900.csv", header=TRUE)
+Pairs1900<-read.csv("C:\\Box\\Research\\Telephone\\project_telephone\\Data\\Input\\Matrix1900.csv", header=TRUE)
 colnames(Pairs1900)<-c("Town1","Town2","Calls","Connection")
 
 Pairs1900<-as.data.frame(Pairs1900)
@@ -466,5 +469,5 @@ names(FullPairs1900)<-c("Lines1","Lines2","Distance","Calls")
 ###Save Data files############################################################################################
 
 
-write.csv(Towns,"C:\\Box\\Research\\Telephone\\Data\\Input\\Towns.csv") 
-write.csv(MatInvDistSq,"C:\\Box\\Research\\Telephone\\Data\\Input\\MatInvDistSq.csv") 
+write.csv(Towns,"C:\\Box\\Research\\Telephone\\project_telephone\\Data\\Towns.csv") 
+write.csv(MatInvDistSq,"C:\\Box\\Research\\Telephone\\project_telephone\\Data\\MatInvDistSq.csv") 
