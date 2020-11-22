@@ -1,7 +1,7 @@
 rm(list = ls(all = TRUE))
 library(spatialreg)
 library(spdep)
-source('C:\\Box\\Research\\Telephone\\project_telephone\\Code\\outreg.r')
+source('C:\\Box\\Research\\Telephone\\project_telephone\\Code\\Code_outreg.r')
 
 
 ##Read in Data sets
