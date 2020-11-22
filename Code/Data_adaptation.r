@@ -289,6 +289,11 @@ MatInvDistSq<-1/MatDistSq
 diag(MatInvDistSq)<-0
 
 
+MatDistTel<-MatDist^(1.8)
+MatInvDistTel<-1/MatDistTel
+diag(MatInvDistTel)<-0
+
+
 Towns$MarketAccess1880Both<-MatInvDistSq%*%Towns$Y1880
 Towns$MarketAccess1896Both<-MatInvDistSq%*%Towns$Y1896
 Towns$MarketAccess1900Both<-MatInvDistSq%*%Towns$Y1900

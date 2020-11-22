@@ -1,4 +1,22 @@
 
+Towns$MarketAccess1880Both<-MatInvDistSq%*%Towns$Y1880
+Towns$MarketAccess1896Both<-MatInvDistSq%*%Towns$Y1896
+Towns$MarketAccess1900Both<-MatInvDistSq%*%Towns$Y1900
+Towns$MarketAccess1905Both<-MatInvDistSq%*%Towns$Y1905
+
+Towns$MarketAccessLines1896Both<-MatInvDistSq%*%Towns$Lines1896
+Towns$MarketAccessLines1900Both<-MatInvDistSq%*%Towns$Lines1900
+Towns$MarketAccessLines1905Both<-MatInvDistSq%*%Towns$Lines1905
+
+Towns$MarketSize1880Both<-rowSums(MatInvDistSq*Towns$Y1880)
+Towns$MarketSize1896Both<-rowSums(MatInvDistSq*Towns$Y1896)
+Towns$MarketSize1900Both<-rowSums(MatInvDistSq*Towns$Y1900)
+Towns$MarketSize1905Both<-rowSums(MatInvDistSq*Towns$Y1905)
+
+
+
+##################################################################
+
 Pairs1896<-read.csv("C:\\Box\\Research\\Telephone\\project_telephone\\Data\\Input\\Matrix1896.csv", header=TRUE)
 colnames(Pairs1896)<-c("Town1","Town2","Calls","Connection")
 
