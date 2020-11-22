@@ -1,4 +1,15 @@
 
+##Analysis 1896###############################################
+SpatModel1896<-as.formula(Lines1896~-1+Y1896+I(Y1896*InstallTime)+I(Y1896*MarketAccess1880)+I(Y1896*MarketSize1880)+I(Y1896^2)+I(Y1896*City)+I(Y1896*PopShare1896)+I(Y1896*Fringe)+I(Y1896*Border)+I(Y1896*Gov1896)+I(Y1896*Pub1896)+I(Y1896*Agriculture)+I(Y1896*EmpRatio95)+I(Y1896*IndexDisSim95)+I(Y1896*StateTax)+I(Y1896*LocalTax)+I(Y1896*RailStation)+I(Y1896*RailRevenues)+I(Y1896*RailWeight)+I(Y1896*PostRevenues)+I(Y1896*Participation)+I(Y1896*Zentrum)+I(Y1896*(Catholics-Zentrum))+I(Y1896*Liberal)+I(Y1896*Socialist))
+
+SpatMatrix1896<-mat2listw(MatInvDistSq[Main==TRUE & Towns$Lines1896>0,Main==TRUE & Towns$Lines1896>0]) #make sure it fits
+Estimation1896<-lagsarlm(SpatModel1896,data=Towns[Main==TRUE & Towns$Lines1896>0,],SpatMatrix1896,tol.solve=1.0e-24)
+
+
+######################################################
+
+
+
 Towns$MarketAccess1880Both<-MatInvDistSq%*%Towns$Y1880
 Towns$MarketAccess1896Both<-MatInvDistSq%*%Towns$Y1896
 Towns$MarketAccess1900Both<-MatInvDistSq%*%Towns$Y1900

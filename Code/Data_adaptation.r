@@ -262,7 +262,7 @@ Towns<-Towns[Towns$BezirkNR>0,]
 #RankRailRevenues
 
 #Turn variables into Per Capita values
-Towns$PostRevenues<-Towns$PostRevenues/Towns$Y1880
+Towns$PostRevenues_pc<-Towns$PostRevenues/Towns$Y1880
 Towns$Nachnahme<-(Towns$CollectedNachnahme-Towns$PaidOutNachnahme)/Towns$Y1880
 Towns$RailStation<-as.integer(Towns$RankRailRevenues>0)
 Towns$RailRevenues<-Towns$RailRevenues/Towns$Y1880-Towns$Nachnahme
