@@ -288,44 +288,51 @@ MatDistSq<-MatDist^2
 MatInvDistSq<-1/MatDistSq
 diag(MatInvDistSq)<-0
 
-
 MatDistTel<-MatDist^(1.8)
 MatInvDistTel<-1/MatDistTel
 diag(MatInvDistTel)<-0
 
 
-Towns$MarketAccess1880Both<-MatInvDistSq%*%Towns$Y1880
-Towns$MarketAccess1896Both<-MatInvDistSq%*%Towns$Y1896
-Towns$MarketAccess1900Both<-MatInvDistSq%*%Towns$Y1900
-Towns$MarketAccess1905Both<-MatInvDistSq%*%Towns$Y1905
-
-Towns$MarketAccessLines1896Both<-MatInvDistSq%*%Towns$Lines1896
-Towns$MarketAccessLines1900Both<-MatInvDistSq%*%Towns$Lines1900
-Towns$MarketAccessLines1905Both<-MatInvDistSq%*%Towns$Lines1905
-
-Towns$MarketSize1880Both<-rowSums(MatInvDistSq*Towns$Y1880)
-Towns$MarketSize1896Both<-rowSums(MatInvDistSq*Towns$Y1896)
-Towns$MarketSize1900Both<-rowSums(MatInvDistSq*Towns$Y1900)
-Towns$MarketSize1905Both<-rowSums(MatInvDistSq*Towns$Y1905)
-
 MainTowns<-Towns$Region != 'PF'
 
-Towns$MarketAccess1880<-MatInvDistSq%*%(Towns$Y1880*MainTowns)
-Towns$MarketAccess1896<-MatInvDistSq%*%(Towns$Y1896*MainTowns)
-Towns$MarketAccess1900<-MatInvDistSq%*%(Towns$Y1900*MainTowns)
-Towns$MarketAccess1905<-MatInvDistSq%*%(Towns$Y1905*MainTowns)
+#Towns$MarketAccess1880<-MatInvDistSq%*%(Towns$Y1880*MainTowns)
+#Towns$MarketAccess1896<-MatInvDistSq%*%(Towns$Y1896*MainTowns)
+#Towns$MarketAccess1900<-MatInvDistSq%*%(Towns$Y1900*MainTowns)
+#Towns$MarketAccess1905<-MatInvDistSq%*%(Towns$Y1905*MainTowns)
 
-Towns$MarketAccessLines1896<-MatInvDistSq%*%(Towns$Lines1896*MainTowns)
-Towns$MarketAccessLines1900<-MatInvDistSq%*%(Towns$Lines1900*MainTowns)
-Towns$MarketAccessLines1905<-MatInvDistSq%*%(Towns$Lines1905*MainTowns)
+Towns$MA_Pop_Out_1880<-MatInvDist%*%(Towns$Y1880*MainTowns)
+Towns$MA_Pop_Out_1896<-MatInvDist%*%(Towns$Y1896*MainTowns)
+Towns$MA_Pop_Out_1900<-MatInvDist%*%(Towns$Y1900*MainTowns)
+Towns$MA_Pop_Out_1905<-MatInvDist%*%(Towns$Y1905*MainTowns)
 
-Towns$MarketSize1880<-rowSums(MatInvDistSq*(Towns$Y1880*MainTowns))
-Towns$MarketSize1896<-rowSums(MatInvDistSq*(Towns$Y1896*MainTowns))
-Towns$MarketSize1900<-rowSums(MatInvDistSq*(Towns$Y1900*MainTowns))
-Towns$MarketSize1905<-rowSums(MatInvDistSq*(Towns$Y1905*MainTowns))
+Towns$MA_Post_Out_1880<-MatInvDistTel%*%(Towns$PostRevenues*MainTowns)
+Towns$MA_Post_Out_1900<-MatInvDistTel%*%(Towns$Post_1900*MainTowns)
 
 
-Towns$MarketDistance1880<-MatDist%*%MainTowns
+#Towns$MarketSize1880<-rowSums(MatInvDistSq*(Towns$Y1880*MainTowns))
+#Towns$MarketSize1896<-rowSums(MatInvDistSq*(Towns$Y1896*MainTowns))
+#Towns$MarketSize1900<-rowSums(MatInvDistSq*(Towns$Y1900*MainTowns))
+#Towns$MarketSize1905<-rowSums(MatInvDistSq*(Towns$Y1905*MainTowns))
+
+
+Towns$MA_Pop_In_1880<-rowSums(MatInvDist*(Towns$Y1880*MainTowns))
+Towns$MA_Pop_In_1896<-rowSums(MatInvDist*(Towns$Y1896*MainTowns))
+Towns$MA_Pop_In_1900<-rowSums(MatInvDist*(Towns$Y1900*MainTowns))
+Towns$MA_Pop_In_1905<-rowSums(MatInvDist*(Towns$Y1905*MainTowns))
+
+
+Towns$MA_Post_In_1880<-rowSums(MatInvDistTel*(Towns$PostRevenues*MainTowns))
+Towns$MA_Post_In_1900<-rowSums(MatInvDistTel*(Towns$Post_1900*MainTowns))
+
+
+
+
+#Towns$MarketAccessLines1896<-MatInvDistSq%*%(Towns$Lines1896*MainTowns)
+#Towns$MarketAccessLines1900<-MatInvDistSq%*%(Towns$Lines1900*MainTowns)
+#Towns$MarketAccessLines1905<-MatInvDistSq%*%(Towns$Lines1905*MainTowns)
+
+#Towns$MarketDistance1880<-MatDist%*%MainTowns
+
 
 
 
@@ -336,5 +343,7 @@ Towns$MarketDistance1880<-MatDist%*%MainTowns
 ###Save Data files############################################################################################
 
 
-write.csv(Towns,"C:\\Box\\Research\\Telephone\\project_telephone\\Data\\Towns.csv") 
+write.csv(Towns,"C:\\Box\\Research\\Telephone\\project_telephone\\Data\\Towns.csv")
+write.csv(MatInvDist,"C:\\Box\\Research\\Telephone\\project_telephone\\Data\\MatInvDist.csv") 
 write.csv(MatInvDistSq,"C:\\Box\\Research\\Telephone\\project_telephone\\Data\\MatInvDistSq.csv") 
+write.csv(MatInvDistTel,"C:\\Box\\Research\\Telephone\\project_telephone\\Data\\MatInvDistTel.csv") 
