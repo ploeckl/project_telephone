@@ -6,12 +6,17 @@ source('C:\\Box\\Research\\Telephone\\project_telephone\\Code\\outreg.r')
 
 ##Read in Data sets
 Towns<-read.csv("C:\\Box\\Research\\Telephone\\project_telephone\\Data\\Towns.csv", header=TRUE) 
-MatInvDistSq<-read.csv("C:\\Box\\Research\\Telephone\\project_telephone\\Data\\MatInvDistSq.csv", header=TRUE, row.names = 1) 
 
-#source('C:\\Box\\Research\\Telephone\\Code\\Data.r') / remove after bringing data over
+MatInvDist<-read.csv("C:\\Box\\Research\\Telephone\\project_telephone\\Data\\MatInvDist.csv", header=TRUE, row.names = 1) 
+MatInvDistSq<-read.csv("C:\\Box\\Research\\Telephone\\project_telephone\\Data\\MatInvDistSq.csv", header=TRUE, row.names = 1) 
+MatInvDistTel<-read.csv("C:\\Box\\Research\\Telephone\\project_telephone\\Data\\MatInvDistTel.csv", header=TRUE, row.names = 1) 
+
 
 ##clean data
+MatInvDist<-as.matrix(MatInvDist)  #confirm data in matrix form
 MatInvDistSq<-as.matrix(MatInvDistSq)  #confirm data in matrix form
+MatInvDistTel<-as.matrix(MatInvDistTel)  #confirm data in matrix form
+
 Main<-Towns$Region!='PF'               #remove Pfalz from analysis    
 
 
