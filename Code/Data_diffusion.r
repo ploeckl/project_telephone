@@ -4,13 +4,24 @@ library("foreign")
 
 ##Read in Data sets
 Towns<-read.csv("C:\\Box\\Research\\Telephone\\project_telephone\\Data\\Towns.csv", header=TRUE) 
+
+MatInvDist<-read.csv("C:\\Box\\Research\\Telephone\\project_telephone\\Data\\MatInvDist.csv", header=TRUE, row.names = 1) 
 MatInvDistSq<-read.csv("C:\\Box\\Research\\Telephone\\project_telephone\\Data\\MatInvDistSq.csv", header=TRUE, row.names = 1) 
+MatInvDistTel<-read.csv("C:\\Box\\Research\\Telephone\\project_telephone\\Data\\MatInvDistTel.csv", header=TRUE, row.names = 1) 
 
-#source('C:\\Research\\Telephone\\Code\\Data.r')
 
-MainTowns<-as.vector(matrix(0,dim(Towns)[1],1))
-MainTowns[Towns$Region != 'PF']<-1
-PfalzTowns<-1-MainTowns
+##clean data
+MatInvDist<-as.matrix(MatInvDist)  #confirm data in matrix form
+MatInvDistSq<-as.matrix(MatInvDistSq)  #confirm data in matrix form
+MatInvDistTel<-as.matrix(MatInvDistTel)  #confirm data in matrix form
+
+
+##remove Pfalz from analysis 
+Main<-Towns$Region!='PF'                 
+Towns<-Towns[Main==TRUE,]
+MatInvDistTel<-MatInvDistTel[Main==TRUE,Main==TRUE]
+MatInvDist<-MatInvDist[Main==TRUE,Main==TRUE]
+MatInvDistSq<-MatInvDistSQ[Main==TRUE,Main==TRUE]
 
 ############################################
 Towns$InstallMonth<-max(Towns$InstallTime)+1-Towns$InstallTime
@@ -79,27 +90,16 @@ TotalObs<-sum(Towns$InstallMonth)
 MarketAccessMatrix<-matrix(0,nrow=max(Towns$InstallTime),ncol=dim(Towns)[1])
 
 MatMAMain<-MatInvDist*MainTowns
-MatMAPfalz<-MatInvDist*PfalzTowns
 
 for (i in 1:(dim(MarketAccessMatrix)[1]-1)){MarketAccessMatrix[i+1,]<-colSums(MatMAMain*TeleMonth[i,])}  #Only MarketAccess in Main State
 
-MarketAccessPfalz<-matrix(0,nrow=max(Towns$InstallTime),ncol=dim(Towns)[1])
-
-for (i in 1:(dim(MarketAccessPfalz)[1]-1)){MarketAccessPfalz[i+1,]<-colSums(MatMAPfalz*TeleMonth[i,])}
 
 
 MatUsedMain<-(t(t(MatInvDist)*MainTowns))
-MatUsedPfalz<-(t(t(MatInvDist)*PfalzTowns))
 
 MarketSizeMatrix<-matrix(0,nrow=max(Towns$InstallTime),ncol=dim(Towns)[1])
 
 for (i in 1:dim(MarketSizeMatrix)[1]){MarketSizeMatrix[i,]<-colSums(t(MatUsedMain*PopMonth[i+(301-dim(MarketSizeMatrix)[1]),]) *(TeleMonth[i,]>0))}          #Consider replacing telemonth indicator with telemonth amount
-
-MarketSizePfalz<-matrix(0,nrow=max(Towns$InstallTime),ncol=dim(Towns)[1])
-
-for (i in 1:dim(MarketSizePfalz)[1]){MarketSizePfalz[i,]<-colSums(t(MatUsedPfalz*PopMonth[i+(301-dim(MarketSizePfalz)[1]),]) *(TeleMonth[i,]>0))}          #Consider replacing telemonth indicator with telemonth amount
-
-
 
 
 
@@ -138,15 +138,10 @@ TownsHazardPop[j,]<-PopMonth[j-Row[i,1]+1+(301-maxT),i]
 TownsHazardTime[j,]<-j-Row[i,1]+1
 
 TownsHazardMA[j,1]<-MarketAccessMatrix[j-Row[i,1]+1,i]
-TownsHazardMA[j,2]<-MarketAccessPfalz[j-Row[i,1]+1,i]
 TownsHazardMA[j,3]<-MarketSizeMatrix[j-Row[i,1]+1,i]
-TownsHazardMA[j,4]<-MarketSizePfalz[j-Row[i,1]+1,i]
-
 
 TownsHazardChar[j,]<-TownsChar[i,]
 TownsHazardNum[j,]<-TownsNum[i,]
-
-
 
 }
 }
@@ -170,12 +165,11 @@ write.dta(TownsHazardCons,"C:\\Research\\Telephone\\Code\\Stata\\Data\\TownsHaza
 
 
 ##### Weight Matrices for Spatial Duration Hazard
-Main<-Towns$Region!='PF'
+
 
 ### Inverse Distance
-write.dta(as.data.frame(MatInvDistSq[Main==TRUE,Main==TRUE]), "C:\\Research\\Telephone\\Code\\Stata\\Data\\WeightsDistanceSq.dta")
-helpWeights<-MatInvDistSq[Main==TRUE,Main==TRUE]/rowSums(MatInvDistSq[Main==TRUE,Main==TRUE])
-write.dta(as.data.frame(helpWeights), "C:\\Research\\Telephone\\Code\\Stata\\Data\\WeightsDistanceSqStandard.dta")
+write.dta(as.data.frame(MatInvDistSq), "C:\\Research\\Telephone\\Code\\Stata\\Data\\WeightsDistanceSq.dta")
+write.dta(as.data.frame(MatInvDistSq/rowSums(MatInvDistSq)), "C:\\Research\\Telephone\\Code\\Stata\\Data\\WeightsDistanceSqStandard.dta")
 
 
 #write.dta(as.data.frame(MatInvDistSq), "C:\\Research\\Telephone\\Code\\Stata\\Data\\WeightsDistanceSqFull.dta")
@@ -184,7 +178,7 @@ write.dta(as.data.frame(helpWeights), "C:\\Research\\Telephone\\Code\\Stata\\Dat
 
 ## Distance 
 
-DistanceWeight<-matrix(as.integer(MatDist[Main==TRUE,Main==TRUE]<50 & MatDist[Main==TRUE,Main==TRUE]>0),dim(MatDist[Main==TRUE,Main==TRUE])[1],dim(MatDist[Main==TRUE,Main==TRUE])[1])
+DistanceWeight<-matrix(as.integer(MatDist<50 & MatDist>0),dim(MatDist)[1],dim(MatDist)[1])
 write.dta(as.data.frame(DistanceWeight), "C:\\Research\\Telephone\\Code\\Stata\\Data\\ProximityWeight.dta")
 DistanceWeight<-DistanceWeight/rowSums(DistanceWeight)
 write.dta(as.data.frame(DistanceWeight), "C:\\Research\\Telephone\\Code\\Stata\\Data\\ProximityWeightStandard.dta")
@@ -199,7 +193,7 @@ if (Towns$Region[i] == Towns$Region[j]){
 RegionWeight[i,j]<-1
 }}}
 diag(RegionWeight)<-0
-RegionWeight<-RegionWeight[Main==TRUE, Main==TRUE]
+
 write.dta(as.data.frame(RegionWeight), "C:\\Research\\Telephone\\Code\\Stata\\Data\\RegionWeight.dta")
 RegionWeigth<-RegionWeight/rowSums(RegionWeight)
 write.dta(as.data.frame(RegionWeight), "C:\\Research\\Telephone\\Code\\Stata\\Data\\RegionWeightStandard.dta")

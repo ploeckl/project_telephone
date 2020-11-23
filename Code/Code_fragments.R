@@ -194,3 +194,19 @@ FullPairs1900<-cbind(as.vector(matLines1[upper.tri(matLines1)==TRUE]),as.vector(
 FullPairs1900<-data.frame(FullPairs1900)
 names(FullPairs1900)<-c("Lines1","Lines2","Distance","Calls")
 
+
+
+
+############################################################3
+#MatMAPfalz<-MatInvDist*PfalzTowns
+#MarketAccessPfalz<-matrix(0,nrow=max(Towns$InstallTime),ncol=dim(Towns)[1])
+#for (i in 1:(dim(MarketAccessPfalz)[1]-1)){MarketAccessPfalz[i+1,]<-colSums(MatMAPfalz*TeleMonth[i,])}
+#MatUsedPfalz<-(t(t(MatInvDist)*PfalzTowns))
+#MarketSizePfalz<-matrix(0,nrow=max(Towns$InstallTime),ncol=dim(Towns)[1])
+#for (i in 1:dim(MarketSizePfalz)[1]){MarketSizePfalz[i,]<-colSums(t(MatUsedPfalz*PopMonth[i+(301-dim(MarketSizePfalz)[1]),]) *(TeleMonth[i,]>0))}          #Consider replacing telemonth indicator with telemonth amount
+
+
+TownsHazardMA[j,2]<-MarketAccessPfalz[j-Row[i,1]+1,i]
+TownsHazardMA[j,4]<-MarketSizePfalz[j-Row[i,1]+1,i]
+
+
