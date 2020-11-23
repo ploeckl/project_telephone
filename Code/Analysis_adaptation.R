@@ -50,7 +50,7 @@ Estimation1905<-spatialreg::lagsarlm(SpatModel1905,data=Towns,SpatMatrix1905,tol
 
 ##Analysis 1900###############################################
 
-
+#Modify Install time variable to take into account 1905 vs 1900
 SpatModel1900<-as.formula(Lines1900~-1+Y1900+I(Y1900*InstallTime)+I(Y1900*MA_Pop_Out_1880)+I(Y1900*MA_Post_In_1880)+I(Y1900^2)+I(Y1900*PostRevenues_pc)+I(Y1900*TelegraphRevenues/Y1880)+I(Y1900*City)+I(Y1900*PopShare1900)+I(Y1900*Fringe)+I(Y1900*Border)+I(Y1900*Gov1900)+I(Y1900*Pub1900)+I(Y1900*Agriculture)+I(Y1900*EmpRatio95)+I(Y1900*IndexDisSim95)+I(Y1900*StateTax)+I(Y1900*LocalTax)+I(Y1900*RailStation)+I(Y1900*RailRevenues)+I(Y1900*RailWeight)+I(Y1900*Participation)+I(Y1900*Zentrum)+I(Y1900*(Catholics-Zentrum))+I(Y1900*Liberal)+I(Y1900*Socialist))
 
 

@@ -16,6 +16,7 @@ MatInvDistSq<-as.matrix(MatInvDistSq)  #confirm data in matrix form
 MatInvDistTel<-as.matrix(MatInvDistTel)  #confirm data in matrix form
 
 
+
 ##remove Pfalz from analysis 
 Main<-Towns$Region!='PF'                 
 Towns<-Towns[Main==TRUE,]
@@ -24,11 +25,15 @@ MatInvDist<-MatInvDist[Main==TRUE,Main==TRUE]
 MatInvDistSq<-MatInvDistSQ[Main==TRUE,Main==TRUE]
 
 ############################################
+
+#Create months of exchange in service
 Towns$InstallMonth<-max(Towns$InstallTime)+1-Towns$InstallTime
 
+#Calculate & interpolate lines installed by month
 TeleMonth<-matrix(0,nrow=max(Towns$InstallTime),ncol=dim(Towns)[1])
 k<-max(Towns$InstallTime)
 l<-dim(Towns)[1]
+
 TeleMonth[k,]<-Towns$Lines1905
 TeleMonth[k-60,]<-Towns$Lines1900
 TeleMonth[k-108,]<-Towns$Lines1896
@@ -61,7 +66,10 @@ else {TeleMonth[i,j]<-Towns$Lines1900[j]+ ((Towns$Lines1905[j]-Towns$Lines1900[j
 }
 
 ##########################################################################
+#Interpolate population by month
+
 PopMonth<-matrix(0,nrow=301,ncol=dim(Towns)[1])
+
 PopMonth[1,]<-Towns$Y1880
 PopMonth[61,]<-Towns$Y1885
 for (i in 2:60){PopMonth[i,]<-Towns$Y1880+((Towns$Y1885-Towns$Y1880)/60)*(i-1)}
