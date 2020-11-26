@@ -179,10 +179,13 @@ Towns[is.na(Towns)==TRUE]<-0
 
 
 
-# Correct Konradsreuth, Ismaning,Pasing
- Towns[Towns$Town=="Muenchen",c(5:13,20,24:25,27:30,34:51)]<- Towns[Towns$Town=="Muenchen",c(5:13,20,24:25,27:30,34:51)]+ Towns[Towns$Town=="Pasing",c(5:13,20,24:25,27:30,34:51)] + Towns[Towns$Town=="Ismaning",c(5:13,20,24:25,27:30,34:51)]
+# Correct Konradsreuth, Ismaning,Pasing (merging into Hof / Munich / Munich)
+Added<-c("Y1840","Y1875", "Y1880", "Y1885","Y1890","Y1895", "Y1900", "Y1905", "Y1910","PostRevenues","TotalRailWeight","SentRailWeight","RailRevenues", "CollectedNachnahme","PaidOutNachnahme","TelegraphRevenues", "Post_1900", "Telegraph_1900", "Y1896","Install1896","Install1900",      "MainLines1896","MainLines1900","MainLines1905", "Lines1896", "Lines1900","Lines1905" , "Government1896",  "Government1900" ,    "Government1905" , "Public1896",  "Public1900","Public1905","Privat1896", "Privat1900" ,"Privat1905",  "Participants1896", "Participants1900", "Participants1905")
 
- Towns[Towns$Town=="Hof",c(5:13,20,24:25,27:30,34:51)]<- Towns[Towns$Town=="Hof",c(5:13,20,24:25,27:30,34:51)]+ Towns[Towns$Town=="Konradsreuth",c(5:13,20,24:25,27:30,34:51)]
+ Towns[Towns$Town=="Muenchen",c(Added)]<- Towns[Towns$Town=="Muenchen",c(Added)]+ Towns[Towns$Town=="Pasing",c(Added)] + Towns[Towns$Town=="Ismaning",c(Added)]
+
+
+ Towns[Towns$Town=="Hof",c(Added)]<- Towns[Towns$Town=="Hof",c(Added)]+ Towns[Towns$Town=="Konradsreuth",c(Added)]
 
 
  Towns<-Towns[Towns$Town != 'Pasing',]
