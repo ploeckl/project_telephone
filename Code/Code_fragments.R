@@ -215,3 +215,4 @@ TownsHazardMA[j,4]<-MarketSizePfalz[j-Row[i,1]+1,i]
 
 #for (i in 1:dim(MarketSizeMatrix)[1]){MarketPopMatrix[i,]<-colSums(t(MatInvDistTel*PopMonth[i+(301-dim(MarketSizeMatrix)[1]),]) *(TeleMonth[i,]>0))}     
 
+TownsHazardCons<-Towns[,c("Town","Bezirk","Region","PostOffice","Bahnbezirk","PostBahn","PostRevenues","RailStation","RailRevenues","RailWeight","EmpRatio82","IndexDisSim82","Y1880","MarketAccess1880Both","MarketAccess1880","MarketSize1880","MarketDistance1880","PopShare1880","City", "Fringe","Border","StateTax", "LocalTax","Agriculture","Participation","Zentrum", "Socialist","Liberal","Catholics","DifCatholicsZentrum","InstallTime","InstallMonth") ]

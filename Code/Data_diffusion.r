@@ -200,18 +200,17 @@ names(TownsHazardVary)<-c(names(TownsVS)[VarChar],"Population","Time","MarketAcc
 TownsHazardVary$Failure<-0
 TownsHazardVary$Failure[Row[,2]]<-1
 
-#write.csv(TownsHazardVary,"C:\\Research\\Telephone\\Code\\Stata\\Data\\TownsHazardVary.csv")
-#write.dta(TownsHazardVary,"C:\\Research\\Telephone\\Code\\Stata\\Data\\TownsHazardVary.dta")
+write.csv(TownsHazardVary,"C:\\Box\\Research\\Telephone\\project_telephone\\Data\\Stata\\TownsHazardVary.csv")
+write.dta(TownsHazardVary,"C:\\Box\\Research\\Telephone\\project_telephone\\Data\\Stata\\TownsHazardVary.dta")
 
 #consolidate constant variables and save
 
-TownsHazardCons<-Towns[,c("Town","Bezirk","Region","PostOffice","Bahnbezirk","PostBahn","PostRevenues","RailStation","RailRevenues","RailWeight","EmpRatio82","IndexDisSim82","Y1880","MarketAccess1880Both","MarketAccess1880","MarketSize1880","MarketDistance1880","PopShare1880","City", "Fringe","Border","StateTax", "LocalTax","Agriculture","Participation","Zentrum", "Socialist","Liberal","Catholics","DifCatholicsZentrum","InstallTime","InstallMonth") ]
 
 TownsHazardCons<-Towns[,c("Town","Bezirk","Region","PostOffice","Bahnbezirk","PostRevenues","Post_1900","TelegraphRevenues","Telegraph_1900","MA_Pop_Out_1880","MA_Pop_In_1880","MA_Pop_Out_1900","MA_Pop_In_1900","MA_Post_Out_1880","MA_Post_In_1880","MA_Post_Out_1900","MA_Post_In_1900","PostBahn","RailStation","RailWeight","RailRevenues", "CollectedNachnahme","PaidOutNachnahme","Nachnahme", "EmpRatio82","IndexDisSim82","Y1880","Y1900","PopShare1880","City", "Fringe","Border","StateTax", "LocalTax","Agriculture","Participation","Zentrum","Socialist","Liberal","Catholics","DifCatholicsZentrum","InstallTime","InstallMonth") ] 
 
 
-#write.csv(TownsHazardCons,"C:\\Research\\Telephone\\Code\\Stata\\Data\\TownsHazardCons.csv") 
-#write.dta(TownsHazardCons,"C:\\Research\\Telephone\\Code\\Stata\\Data\\TownsHazardCons.dta") 
+write.csv(TownsHazardCons,"C:\\Box\\Research\\Telephone\\project_telephone\\Data\\Stata\\TownsHazardCons.csv") 
+write.dta(TownsHazardCons,"C:\\Box\\Research\\Telephone\\project_telephone\\Data\\Stata\\TownsHazardCons.dta") 
 
 
 
