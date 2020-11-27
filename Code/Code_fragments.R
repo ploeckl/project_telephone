@@ -210,3 +210,8 @@ TownsHazardMA[j,2]<-MarketAccessPfalz[j-Row[i,1]+1,i]
 TownsHazardMA[j,4]<-MarketSizePfalz[j-Row[i,1]+1,i]
 
 
+
+#########################################
+
+#for (i in 1:dim(MarketSizeMatrix)[1]){MarketPopMatrix[i,]<-colSums(t(MatInvDistTel*PopMonth[i+(301-dim(MarketSizeMatrix)[1]),]) *(TeleMonth[i,]>0))}     
+

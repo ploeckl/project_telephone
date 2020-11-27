@@ -21,7 +21,7 @@ Main<-Towns$Region!='PF'
 Towns<-Towns[Main==TRUE,]
 MatInvDistTel<-MatInvDistTel[Main==TRUE,Main==TRUE]
 MatInvDist<-MatInvDist[Main==TRUE,Main==TRUE]
-MatInvDistSq<-MatInvDistSQ[Main==TRUE,Main==TRUE]
+MatInvDistSq<-MatInvDistSq[Main==TRUE,Main==TRUE]
 
 
 #retain regular distance matrix
@@ -101,22 +101,30 @@ for (i in 242:300){PopMonth[i,]<-Towns$Y1900+((Towns$Y1905-Towns$Y1900)/60)*(i-2
 TotalObs<-sum(Towns$InstallMonth)    #calculate number of rows necessary for month - town observations
 
 
-#Matrix with months in rows and towns in columns
-MarketAccessMatrix<-matrix(0,nrow=max(Towns$InstallTime),ncol=dim(Towns)[1])
+#Matrix with months in rows and towns in columns for Telephone market access
+MarketTelMatrix<-matrix(0,nrow=max(Towns$InstallTime),ncol=dim(Towns)[1])
 
 
 #Market Access with number of lines and inverse distance (^1.8)
-for (i in 1:(dim(MarketAccessMatrix)[1]-1)){MarketAccessMatrix[i+1,]<-colSums(MatInvDistTel*TeleMonth[i,])} 
+for (i in 1:(dim(MarketTelMatrix)[1]-1)){MarketTelMatrix[i+1,]<-colSums(MatInvDistTel*TeleMonth[i,])} #use symmetry of distance matrix
 
 
 
-MarketSizeMatrix<-matrix(0,nrow=max(Towns$InstallTime),ncol=dim(Towns)[1])
+#General Population Market Access (telephone selection)
+#Matrix with months in rows and towns in columns for Population (Telephone-weighted) market access
+MarketPopMatrix<-matrix(0,nrow=max(Towns$InstallTime),ncol=dim(Towns)[1])
 
-for (i in 1:dim(MarketSizeMatrix)[1]){MarketSizeMatrix[i,]<-colSums(t(MatInvDistTel*PopMonth[i+(301-dim(MarketSizeMatrix)[1]),]) *(TeleMonth[i,]>0))}          
+     
+for (i in 1:dim(MarketPopMatrix)[1]){MarketPopMatrix[i,]<-colSums(MatInvDist*(PopMonth[i+(301-dim(MarketPopMatrix)[1]),] *(TeleMonth[i,]>0)))}          
 
-#Consider replacing telemonth indicator with telemonth amount
 
-#######use of population here?##################
+
+####Total Population matrix (no selection)
+MarketPopTotMatrix<-matrix(0,nrow=max(Towns$InstallTime),ncol=dim(Towns)[1])
+
+
+for (i in 1:dim(MarketPopTotMatrix)[1]){MarketPopTotMatrix[i,]<-colSums(MatInvDist*PopMonth[i+(301-dim(MarketPopTotMatrix)[1]),])}          
+
 
 
 
@@ -139,7 +147,8 @@ Row[i,1]<-Row[i-1,2]+1
 
 ###Update###
 
-TownsVS<-Towns[,c("Town","Bezirk","Region","PostOffice","Bahnbezirk","PostBahn","MarketAccess1880","MarketSize1880","MarketDistance1880","PostRevenues","RailStation","RailWeight","RailRevenues", "CollectedNachnahme","PaidOutNachnahme","Nachnahme", "EmpRatio82","IndexDisSim82","Y1880","PopShare1880","City", "Fringe","Border","StateTax", "LocalTax","Agriculture","Participation","Zentrum","Socialist","Liberal","Catholics","DifCatholicsZentrum","InstallTime","InstallMonth") ] 
+TownsVS<-Towns[,c("Town","Bezirk","Region","PostOffice","Bahnbezirk","PostRevenues"
+,"Post_1900","TelegraphRevenues","Telegraph_1900","MA_Pop_Out_1880","MA_Pop_In_1880","MA_Pop_Out_1900","MA_Pop_In_1900","MA_Post_Out_1880","MA_Post_In_1880","MA_Post_Out_1900","MA_Post_In_1900","PostBahn","RailStation","RailWeight","RailRevenues", "CollectedNachnahme","PaidOutNachnahme","Nachnahme", "EmpRatio82","IndexDisSim82","Y1880","Y1900","PopShare1880","City", "Fringe","Border","StateTax", "LocalTax","Agriculture","Participation","Zentrum","Socialist","Liberal","Catholics","DifCatholicsZentrum","InstallTime","InstallMonth") ] 
 
      
 
@@ -148,18 +157,20 @@ TownsVS<-Towns[,c("Town","Bezirk","Region","PostOffice","Bahnbezirk","PostBahn",
 #prep for variables
 consV<-dim(TownsVS)[2]
 TownsVS<-as.data.frame(TownsVS)
-maxT<-dim(MarketSizeMatrix)[1]
+maxT<-dim(MarketPopMatrix)[1]
 
-VarChar<-c(1:5)
-VarNum<-c(6:34) 
+#put covariates into matrices
+VarChar<-c(1:5)   #variables in TownsVS that are character, not numeric
+VarNum<-c(6:consV) 
 TownsChar<-as.matrix(TownsVS[,VarChar])
 TownsNum<-as.matrix(TownsVS[,VarNum])
 
-TownsHazardChar<-matrix(0,TotalObs,length(VarChar))
-TownsHazardNum<-matrix(0,TotalObs,length(VarNum))
-TownsHazardPop<-matrix(0,TotalObs,1)
-TownsHazardTime<-matrix(0,TotalObs,1)
-TownsHazardMA<-matrix(0,TotalObs,4)
+#Prepare variables for varying+constant variables
+TownsHazardChar<-matrix(0,TotalObs,length(VarChar))     #character variables
+TownsHazardNum<-matrix(0,TotalObs,length(VarNum))       #numeric variables
+TownsHazardPop<-matrix(0,TotalObs,1)                    #varying population
+TownsHazardTime<-matrix(0,TotalObs,1)                   #time variable
+TownsHazardMA<-matrix(0,TotalObs,3)                     #varying market access variable
 
 
 #read values into help variables
@@ -170,8 +181,9 @@ for (j in Row[i,1]:Row[i,2]){
 TownsHazardPop[j,]<-PopMonth[j-Row[i,1]+1+(301-maxT),i]
 TownsHazardTime[j,]<-j-Row[i,1]+1
 
-TownsHazardMA[j,1]<-MarketAccessMatrix[j-Row[i,1]+1,i]
-TownsHazardMA[j,3]<-MarketSizeMatrix[j-Row[i,1]+1,i]
+TownsHazardMA[j,1]<-MarketTelMatrix[j-Row[i,1]+1,i]
+TownsHazardMA[j,2]<-MarketPopMatrix[j-Row[i,1]+1,i]
+TownsHazardMA[j,3]<-MarketPopTotMatrix[j-Row[i,1]+1,i]
 
 TownsHazardChar[j,]<-TownsChar[i,]
 TownsHazardNum[j,]<-TownsNum[i,]
@@ -183,20 +195,23 @@ TownsHazardNum[j,]<-TownsNum[i,]
 #consolidate varying variables and save
 
 TownsHazardVary<-as.data.frame(cbind(TownsHazardChar,TownsHazardPop, TownsHazardTime, TownsHazardMA,TownsHazardNum))
-names(TownsHazardVary)<-c(names(TownsVS)[VarChar],"Population","Time","MarketAccess","MarketAccessPfalz","MarketSize","MarketSizePfalz",names(TownsVS)[VarNum])
+names(TownsHazardVary)<-c(names(TownsVS)[VarChar],"Population","Time","MarketAccess_Tel","MarketAccess_Pop","MarketAccess_PopTot",names(TownsVS)[VarNum])
 
 TownsHazardVary$Failure<-0
 TownsHazardVary$Failure[Row[,2]]<-1
 
-write.csv(TownsHazardVary,"C:\\Research\\Telephone\\Code\\Stata\\Data\\TownsHazardVary.csv")
-write.dta(TownsHazardVary,"C:\\Research\\Telephone\\Code\\Stata\\Data\\TownsHazardVary.dta")
+#write.csv(TownsHazardVary,"C:\\Research\\Telephone\\Code\\Stata\\Data\\TownsHazardVary.csv")
+#write.dta(TownsHazardVary,"C:\\Research\\Telephone\\Code\\Stata\\Data\\TownsHazardVary.dta")
 
 #consolidate constant variables and save
 
 TownsHazardCons<-Towns[,c("Town","Bezirk","Region","PostOffice","Bahnbezirk","PostBahn","PostRevenues","RailStation","RailRevenues","RailWeight","EmpRatio82","IndexDisSim82","Y1880","MarketAccess1880Both","MarketAccess1880","MarketSize1880","MarketDistance1880","PopShare1880","City", "Fringe","Border","StateTax", "LocalTax","Agriculture","Participation","Zentrum", "Socialist","Liberal","Catholics","DifCatholicsZentrum","InstallTime","InstallMonth") ]
 
-write.csv(TownsHazardCons,"C:\\Research\\Telephone\\Code\\Stata\\Data\\TownsHazardCons.csv") 
-write.dta(TownsHazardCons,"C:\\Research\\Telephone\\Code\\Stata\\Data\\TownsHazardCons.dta") 
+TownsHazardCons<-Towns[,c("Town","Bezirk","Region","PostOffice","Bahnbezirk","PostRevenues","Post_1900","TelegraphRevenues","Telegraph_1900","MA_Pop_Out_1880","MA_Pop_In_1880","MA_Pop_Out_1900","MA_Pop_In_1900","MA_Post_Out_1880","MA_Post_In_1880","MA_Post_Out_1900","MA_Post_In_1900","PostBahn","RailStation","RailWeight","RailRevenues", "CollectedNachnahme","PaidOutNachnahme","Nachnahme", "EmpRatio82","IndexDisSim82","Y1880","Y1900","PopShare1880","City", "Fringe","Border","StateTax", "LocalTax","Agriculture","Participation","Zentrum","Socialist","Liberal","Catholics","DifCatholicsZentrum","InstallTime","InstallMonth") ] 
+
+
+#write.csv(TownsHazardCons,"C:\\Research\\Telephone\\Code\\Stata\\Data\\TownsHazardCons.csv") 
+#write.dta(TownsHazardCons,"C:\\Research\\Telephone\\Code\\Stata\\Data\\TownsHazardCons.dta") 
 
 
 
