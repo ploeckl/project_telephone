@@ -219,9 +219,12 @@ write.dta(TownsHazardCons,"C:\\Box\\Research\\Telephone\\project_telephone\\Data
 
 
 ### Inverse Distance
-write.dta(as.data.frame(MatInvDistSq), "C:\\Research\\Telephone\\Code\\Stata\\Data\\WeightsDistanceSq.dta")
-write.dta(as.data.frame(MatInvDistSq/rowSums(MatInvDistSq)), "C:\\Research\\Telephone\\Code\\Stata\\Data\\WeightsDistanceSqStandard.dta")
+write.dta(as.data.frame(MatInvDistTel), "C:\\Box\\Research\\Telephone\\project_telephone\\Data\\Stata\\WeightsDistanceTel.dta")
+write.dta(as.data.frame(MatInvDistTel/rowSums(MatInvDistTel)), "C:\\Box\\Research\\Telephone\\project_telephone\\Data\\Stata\\WeightsDistanceTelStandard.dta")
 
+
+write.dta(as.data.frame(MatInvDist), "C:\\Box\\Research\\Telephone\\project_telephone\\Data\\Stata\\WeightsDistance.dta")
+write.dta(as.data.frame(MatInvDist/rowSums(MatInvDist)), "C:\\Box\\Research\\Telephone\\project_telephone\\Data\\Stata\\WeightsDistanceStandard.dta")
 
 #write.dta(as.data.frame(MatInvDistSq), "C:\\Research\\Telephone\\Code\\Stata\\Data\\WeightsDistanceSqFull.dta")
 #write.dta(as.data.frame(MatInvDistSq/rowSums(MatInvDistSq)), "C:\\Research\\Telephone\\Code\\Stata\\Data\\WeightsDistanceSqFullStandard.dta")
@@ -230,9 +233,9 @@ write.dta(as.data.frame(MatInvDistSq/rowSums(MatInvDistSq)), "C:\\Research\\Tele
 ## Distance 
 
 DistanceWeight<-matrix(as.integer(MatDist<50 & MatDist>0),dim(MatDist)[1],dim(MatDist)[1])
-write.dta(as.data.frame(DistanceWeight), "C:\\Research\\Telephone\\Code\\Stata\\Data\\ProximityWeight.dta")
+write.dta(as.data.frame(DistanceWeight), "C:\\Box\\Research\\Telephone\\project_telephone\\Data\\Stata\\ProximityWeight.dta")
 DistanceWeight<-DistanceWeight/rowSums(DistanceWeight)
-write.dta(as.data.frame(DistanceWeight), "C:\\Research\\Telephone\\Code\\Stata\\Data\\ProximityWeightStandard.dta")
+write.dta(as.data.frame(DistanceWeight), "C:\\Box\\Research\\Telephone\\project_telephone\\Data\\Stata\\ProximityWeightStandard.dta")
 
 
 ## Politischer Bezirk
@@ -245,9 +248,9 @@ RegionWeight[i,j]<-1
 }}}
 diag(RegionWeight)<-0
 
-write.dta(as.data.frame(RegionWeight), "C:\\Research\\Telephone\\Code\\Stata\\Data\\RegionWeight.dta")
+write.dta(as.data.frame(RegionWeight), "C:\\Box\\Research\\Telephone\\project_telephone\\Data\\Stata\\RegionWeight.dta")
 RegionWeigth<-RegionWeight/rowSums(RegionWeight)
-write.dta(as.data.frame(RegionWeight), "C:\\Research\\Telephone\\Code\\Stata\\Data\\RegionWeightStandard.dta")
+write.dta(as.data.frame(RegionWeight), "C:\\Box\\Research\\Telephone\\project_telephone\\Data\\Stata\\RegionWeightStandard.dta")
 
 
 
@@ -258,11 +261,11 @@ write.dta(as.data.frame(RegionWeight), "C:\\Research\\Telephone\\Code\\Stata\\Da
 Cumulative<-mat.or.vec(max(Towns$InstallMonth),2)
 Cumulative[,1]<-seq(1,max(Towns$InstallMonth),1)
 for (i in 1: dim(Cumulative)[1]){
-Cumulative[i,2]<-sum(Towns$InstallMonth[Main==TRUE]<=i)
+Cumulative[i,2]<-sum(Towns$InstallMonth<=i)
 }
 plot(Cumulative, type="l", ylab="Number of Local Exchanges", xlab="")
 
 
-Penetration<-as.matrix(Towns[,58:60])
+Penetration<-as.matrix(Towns[,c("Penetration1896","Penetration1900","Penetration1905")])
 Penetration[Penetration==0]<-NA
 matplot(c(1896,1900,1905),t(Penetration),col="BLACK",ylab="Phone Lines per Capita", xlab="Year",type="p",pch=19, lty=3)
