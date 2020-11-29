@@ -23,7 +23,7 @@ Main<-Towns$Region!='PF'
 Towns<-Towns[Main==TRUE,]
 MatInvDistTel<-MatInvDistTel[Main==TRUE,Main==TRUE]
 MatInvDist<-MatInvDist[Main==TRUE,Main==TRUE]
-MatInvDistSq<-MatInvDistSQ[Main==TRUE,Main==TRUE]
+MatInvDistSq<-MatInvDistSq[Main==TRUE,Main==TRUE]
 
 
 
@@ -35,17 +35,48 @@ Towns$Y1896<-Towns$Y1896/1000
 
 ##Analysis 1905###############################################
 
-SpatModel1905<-as.formula(Lines1905~-1+Y1905+I(Y1905*InstallTime)+I(Y1905*MA_Pop_Out_1880)+I(Y1905*MA_Pop_In_1880)+ I(Y1905^2)+I(Y1905*PostRevenues_pc)+I(Y1905*TelegraphRevenues/Y1880)+I(Y1905*City)+I(Y1905*PopShare1905)+I(Y1905*Fringe)+I(Y1905*Border)+I(Y1905*Gov1905)+I(Y1905*Pub1905)+I(Y1905*Agriculture)+I(Y1905*EmpRatio07)+I(Y1905*IndexDisSim07)+I(Y1905*StateTax)+I(Y1905*LocalTax)+I(Y1905*RailStation)+I(Y1905*RailRevenues)+I(Y1905*RailWeight)+I(Y1905*Participation)+I(Y1905*Zentrum)+I(Y1905*(Catholics-Zentrum))+I(Y1905*Liberal)+I(Y1905*Socialist))
-
-#+I(Y1905*MA_Post_Out_1880)+I(Y1905*MA_Post_In_1880)
-#+I(Y1905*MA_Pop_Out_1880)+I(Y1905*MA_Pop_In_1880)
-
-
-
 SpatMatrix1905<-mat2listw(MatInvDistTel) 
 
 
+
+#Market access only
+SpatModel1905_MA<-as.formula(Lines1905~-1+Y1905+I(Y1905*MA_Pop_Out_1880)+I(Y1905*Border)+ I(Y1905^2)+I(Y1905*PostRevenues_pc)+I(Y1905*TelegraphRevenues/Y1880)+I(Y1905*InstallTime))
+
+
+Estimation1905_MA<-spatialreg::lagsarlm(SpatModel1905_MA,data=Towns,SpatMatrix1905,tol.solve=1.0e-24)
+
+
+
+
+#Market Acess + Econ
+SpatModel1905_EC<-as.formula(Lines1905~-1+Y1905+I(Y1905*MA_Pop_Out_1880)+I(Y1905*Border)+ I(Y1905^2)+I(Y1905*PostRevenues_pc)+I(Y1905*TelegraphRevenues/Y1880)+I(Y1905*InstallTime)  +I(Y1905*Agriculture)+I(Y1905*EmpRatio07)+I(Y1905*IndexDisSim07)+I(Y1905*RailStation)+I(Y1905*RailRevenues)+I(Y1905*StateTax))#+I(Y1905*LocalTax))
+
+Estimation1905_EC<-spatialreg::lagsarlm(SpatModel1905_EC,data=Towns,SpatMatrix1905,tol.solve=1.0e-24)
+
+
+#Market Acess + Econ + Politics
+SpatModel1905_PO<-as.formula(Lines1905~-1+Y1905+I(Y1905*MA_Pop_Out_1880)+I(Y1905*Border)+ I(Y1905^2)+I(Y1905*PostRevenues_pc)+I(Y1905*TelegraphRevenues/Y1880)+I(Y1905*InstallTime)  +I(Y1905*Agriculture)+I(Y1905*EmpRatio07)+I(Y1905*IndexDisSim07)+I(Y1905*RailStation)+I(Y1905*RailRevenues)+I(Y1905*StateTax)+I(Y1905*Participation)+I(Y1905*Liberal)+I(Y1905*Socialist)+I(Y1905*Zentrum)+I(Y1905*(Catholics-Zentrum)))
+
+Estimation1905_PO<-spatialreg::lagsarlm(SpatModel1905_PO,data=Towns,SpatMatrix1905,tol.solve=1.0e-24)
+
+
+
+#Market Acess + Econ + Politics+Admin
+SpatModel1905_AD<-as.formula(Lines1905~-1+Y1905+I(Y1905*MA_Pop_Out_1880)+I(Y1905*Border)+ I(Y1905^2)+I(Y1905*PostRevenues_pc)+I(Y1905*TelegraphRevenues/Y1880)+I(Y1905*InstallTime)  +I(Y1905*Agriculture)+I(Y1905*EmpRatio07)+I(Y1905*IndexDisSim07)+I(Y1905*RailStation)+I(Y1905*RailRevenues)+I(Y1905*StateTax)+I(Y1905*Participation)+I(Y1905*Liberal)+I(Y1905*Socialist)+I(Y1905*Zentrum)+I(Y1905*(Catholics-Zentrum))+I(Y1905*City)+I(Y1905*PopShare1905)+I(Y1905*Fringe))
+
+Estimation1905_AD<-spatialreg::lagsarlm(SpatModel1905_AD,data=Towns,SpatMatrix1905,tol.solve=1.0e-24)
+
+
+
+
+
+#Full Model
+SpatModel1905<-as.formula(Lines1905~-1+Y1905+I(Y1905*MA_Pop_Out_1880)+I(Y1905*Border) + I(Y1905^2)+I(Y1905*PostRevenues_pc)+I(Y1905*TelegraphRevenues/Y1880)+I(Y1905*InstallTime)  +I(Y1905*Agriculture)+I(Y1905*EmpRatio07)+I(Y1905*IndexDisSim07)+I(Y1905*RailStation)+I(Y1905*RailRevenues)+I(Y1905*StateTax)+I(Y1905*Participation)+I(Y1905*Liberal)+I(Y1905*Socialist)+I(Y1905*Zentrum)+I(Y1905*(Catholics-Zentrum))+I(Y1905*City)+I(Y1905*PopShare1905)+I(Y1905*Fringe)+I(Y1905*Gov1905)+I(Y1905*Pub1905))
+
 Estimation1905<-spatialreg::lagsarlm(SpatModel1905,data=Towns,SpatMatrix1905,tol.solve=1.0e-24)
+
+
+
 
 
 ##Analysis 1900###############################################
