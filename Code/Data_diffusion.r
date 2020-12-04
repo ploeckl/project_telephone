@@ -26,7 +26,7 @@ MatInvDistSq<-MatInvDistSq[Main==TRUE,Main==TRUE]
 
 #retain regular distance matrix
 MatDist<-1/MatInvDist
-MatDist[is.na(MatDist)]<-0
+MatDist[MatDist==Inf]<-0
 
 
 ############################################
@@ -219,18 +219,22 @@ write.dta(TownsHazardCons,"C:\\Box\\Research\\Telephone\\project_telephone\\Data
 
 
 ### Inverse Distance
-write.dta(as.data.frame(MatInvDistTel), "C:\\Box\\Research\\Telephone\\project_telephone\\Data\\Stata\\WeightsDistanceTel.dta")
-write.dta(as.data.frame(MatInvDistTel/rowSums(MatInvDistTel)), "C:\\Box\\Research\\Telephone\\project_telephone\\Data\\Stata\\WeightsDistanceTelStandard.dta")
+InvDistWeight<-matrix(MatInvDistTel,nrow=dim(MatInvDistTel)[1],ncol=dim(MatInvDistTel))
+InvDistWeight<-round(InvDistWeight,4)
+write.dta(as.data.frame(InvDistWeight), "C:\\Box\\Research\\Telephone\\project_telephone\\Data\\Stata\\WeightsDistanceTel.dta")
+write.dta(as.data.frame(InvDistWeight/rowSums(InvDistWeight)), "C:\\Box\\Research\\Telephone\\project_telephone\\Data\\Stata\\WeightsDistanceTelStandard.dta")
 
 
 write.dta(as.data.frame(MatInvDist), "C:\\Box\\Research\\Telephone\\project_telephone\\Data\\Stata\\WeightsDistance.dta")
-write.dta(as.data.frame(MatInvDist/rowSums(MatInvDist)), "C:\\Box\\Research\\Telephone\\project_telephone\\Data\\Stata\\WeightsDistanceStandard.dta")
+write.dta(as.data.frame(MatInvDist/rowSums(MatInvDist)),"C:\\Box\\Research\\Telephone\\project_telephone\\Data\\Stata\\WeightsDistanceStandard.dta")
+
+
 
 #write.dta(as.data.frame(MatInvDistSq), "C:\\Research\\Telephone\\Code\\Stata\\Data\\WeightsDistanceSqFull.dta")
 #write.dta(as.data.frame(MatInvDistSq/rowSums(MatInvDistSq)), "C:\\Research\\Telephone\\Code\\Stata\\Data\\WeightsDistanceSqFullStandard.dta")
 
 
-## Distance 
+## Distance band 
 
 DistanceWeight<-matrix(as.integer(MatDist<50 & MatDist>0),dim(MatDist)[1],dim(MatDist)[1])
 write.dta(as.data.frame(DistanceWeight), "C:\\Box\\Research\\Telephone\\project_telephone\\Data\\Stata\\ProximityWeight.dta")
