@@ -114,8 +114,6 @@ Estimation1905small<-spatialreg::lagsarlm(SpatModel1905small,data=Towns[Towns$Li
 
 
 
-################
 
-Shares<-(0.305*(MatInvDistTel%*%Towns$Lines1905))/Towns$Lines1905
 
 
