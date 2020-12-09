@@ -259,16 +259,33 @@ Towns$Liberal<-as.numeric(sapply(Towns$Bezirk,funBezirk,y="Freisinnige"))+as.num
 Towns$DifCatholicsZentrum<-Towns$Catholics-Towns$Zentrum
 Towns[is.na(Towns)==TRUE]<-0
 Towns<-Towns[Towns$BezirkNR>0,]
+
+
+
+#rescale population to make coefficients readable
+Towns$Y1905<-Towns$Y1905/1000
+Towns$Y1900<-Towns$Y1900/1000
+Towns$Y1896<-Towns$Y1896/1000
+Towns$Y1895<-Towns$Y1895/1000
+Towns$Y1890<-Towns$Y1890/1000
+Towns$Y1885<-Towns$Y1885/1000
+Towns$Y1880<-Towns$Y1880/1000
+Towns$Y1875<-Towns$Y1875/1000
+Towns$Y1840<-Towns$Y1840/1000
+
+
 ##################Verkehrsanstalten#######################
 
 #RankRailWeight
 #RankRailRevenues
 
 #Turn variables into Per Capita values
-Towns$PostRevenues_pc<-Towns$PostRevenues/Towns$Y1880
+Towns$PostRevenues_pc<-Towns$PostRevenues/(Towns$Y1880*1000000)
+Towns$TelegraphRevenues_pc<-Towns$TelegraphRevenues/(Towns$Y1880*1000000)
+
 Towns$Nachnahme<-(Towns$CollectedNachnahme-Towns$PaidOutNachnahme)/Towns$Y1880
 Towns$RailStation<-as.integer(Towns$RankRailRevenues>0)
-Towns$RailRevenues<-Towns$RailRevenues/Towns$Y1880-Towns$Nachnahme
+Towns$RailRevenues<-(1/1000)*(Towns$RailRevenues/Towns$Y1880-Towns$Nachnahme)
 Towns$RailWeight<-(Towns$SentRailWeight-(Towns$TotalRailWeight-Towns$SentRailWeight))/Towns$Y1880
 
 
@@ -308,8 +325,8 @@ Towns$MA_Pop_Out_1896<-MatInvDist%*%(Towns$Y1896*MainTowns)
 Towns$MA_Pop_Out_1900<-MatInvDist%*%(Towns$Y1900*MainTowns)
 Towns$MA_Pop_Out_1905<-MatInvDist%*%(Towns$Y1905*MainTowns)
 
-Towns$MA_Post_Out_1880<-MatInvDistTel%*%(Towns$PostRevenues*MainTowns)
-Towns$MA_Post_Out_1900<-MatInvDistTel%*%(Towns$Post_1900*MainTowns)
+Towns$MA_Post_Out_1880<-MatInvDistTel%*%(Towns$PostRevenues*MainTowns)*(1/1000)
+Towns$MA_Post_Out_1900<-MatInvDistTel%*%(Towns$Post_1900*MainTowns)*(1/1000)
 
 
 #Towns$MarketSize1880<-rowSums(MatInvDistSq*(Towns$Y1880*MainTowns))
@@ -324,8 +341,8 @@ Towns$MA_Pop_In_1900<-rowSums(MatInvDist*(Towns$Y1900*MainTowns))
 Towns$MA_Pop_In_1905<-rowSums(MatInvDist*(Towns$Y1905*MainTowns))
 
 
-Towns$MA_Post_In_1880<-rowSums(MatInvDistTel*(Towns$PostRevenues*MainTowns))
-Towns$MA_Post_In_1900<-rowSums(MatInvDistTel*(Towns$Post_1900*MainTowns))
+Towns$MA_Post_In_1880<-rowSums(MatInvDistTel*(Towns$PostRevenues*MainTowns*(1/1000)))
+Towns$MA_Post_In_1900<-rowSums(MatInvDistTel*(Towns$Post_1900*MainTowns*(1/1000)))
 
 
 
@@ -335,8 +352,6 @@ Towns$MA_Post_In_1900<-rowSums(MatInvDistTel*(Towns$Post_1900*MainTowns))
 #Towns$MarketAccessLines1905<-MatInvDistSq%*%(Towns$Lines1905*MainTowns)
 
 #Towns$MarketDistance1880<-MatDist%*%MainTowns
-
-
 
 
 
