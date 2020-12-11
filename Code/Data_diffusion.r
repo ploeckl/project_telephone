@@ -29,6 +29,7 @@ MatDist<-1/MatInvDist
 MatDist[MatDist==Inf]<-0
 
 
+
 ############################################
 
 #Create months of exchange in service
@@ -147,8 +148,7 @@ Row[i,1]<-Row[i-1,2]+1
 
 ###Update###
 
-TownsVS<-Towns[,c("Town","Bezirk","Region","PostOffice","Bahnbezirk","PostRevenues"
-,"Post_1900","TelegraphRevenues","Telegraph_1900","MA_Pop_Out_1880","MA_Pop_In_1880","MA_Pop_Out_1900","MA_Pop_In_1900","MA_Post_Out_1880","MA_Post_In_1880","MA_Post_Out_1900","MA_Post_In_1900","PostBahn","RailStation","RailWeight","RailRevenues", "CollectedNachnahme","PaidOutNachnahme","Nachnahme", "EmpRatio82","IndexDisSim82","Y1880","Y1900","PopShare1880","City", "Fringe","Border","StateTax", "LocalTax","Agriculture","Participation","Zentrum","Socialist","Liberal","Catholics","DifCatholicsZentrum","InstallTime","InstallMonth") ] 
+TownsVS<-Towns[,c("Town","Bezirk","Region","PostOffice","Bahnbezirk","PostRevenues","PostRevenues_pc","Post_1900","TelegraphRevenues","TelegraphRevenues_pc","Telegraph_1900","MA_Pop_Out_1880","MA_Pop_In_1880","MA_Pop_Out_1900","MA_Pop_In_1900","MA_Post_Out_1880","MA_Post_In_1880","MA_Post_Out_1900","MA_Post_In_1900","PostBahn","RailStation","RailWeight","RailRevenues","CollectedNachnahme","PaidOutNachnahme","Nachnahme", "EmpRatio82","IndexDisSim82","Y1880","Y1900","PopShare1880","City", "Fringe","Border","StateTax", "LocalTax","Agriculture","Participation","Zentrum","Socialist","Liberal","Catholics","DifCatholicsZentrum","InstallTime","InstallMonth") ] 
 
      
 
@@ -206,7 +206,7 @@ write.dta(TownsHazardVary,"C:\\Box\\Research\\Telephone\\project_telephone\\Data
 #consolidate constant variables and save
 
 
-TownsHazardCons<-Towns[,c("Town","Bezirk","Region","PostOffice","Bahnbezirk","PostRevenues","Post_1900","TelegraphRevenues","Telegraph_1900","MA_Pop_Out_1880","MA_Pop_In_1880","MA_Pop_Out_1900","MA_Pop_In_1900","MA_Post_Out_1880","MA_Post_In_1880","MA_Post_Out_1900","MA_Post_In_1900","PostBahn","RailStation","RailWeight","RailRevenues", "CollectedNachnahme","PaidOutNachnahme","Nachnahme", "EmpRatio82","IndexDisSim82","Y1880","Y1900","PopShare1880","City", "Fringe","Border","StateTax", "LocalTax","Agriculture","Participation","Zentrum","Socialist","Liberal","Catholics","DifCatholicsZentrum","InstallTime","InstallMonth") ] 
+TownsHazardCons<-Towns[,c("Town","Bezirk","Region","PostOffice","Bahnbezirk","PostRevenues","PostRevenues_pc","Post_1900","TelegraphRevenues","TelegraphRevenues_pc","Telegraph_1900","MA_Pop_Out_1880","MA_Pop_In_1880","MA_Pop_Out_1900","MA_Pop_In_1900","MA_Post_Out_1880","MA_Post_In_1880","MA_Post_Out_1900","MA_Post_In_1900","PostBahn","RailStation","RailWeight","RailRevenues", "CollectedNachnahme","PaidOutNachnahme","Nachnahme", "EmpRatio82","IndexDisSim82","Y1880","Y1900","PopShare1880","City", "Fringe","Border","StateTax", "LocalTax","Agriculture","Participation","Zentrum","Socialist","Liberal","Catholics","DifCatholicsZentrum","InstallTime","InstallMonth") ] 
 
 
 write.csv(TownsHazardCons,"C:\\Box\\Research\\Telephone\\project_telephone\\Data\\Stata\\TownsHazardCons.csv") 

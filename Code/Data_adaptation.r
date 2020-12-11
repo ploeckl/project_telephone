@@ -274,18 +274,28 @@ Towns$Y1875<-Towns$Y1875/1000
 Towns$Y1840<-Towns$Y1840/1000
 
 
+### Rescaling
+
+Towns$Agriculture<-Towns$Agriculture/100
+Towns$Participation<-Towns$Participation/100
+Towns$Socialist<-Towns$Socialist/100
+Towns$Liberal<-Towns$Liberal/100
+Towns$Zentrum<-Towns$Zentrum/100
+Towns$DifCatholicsZentrum<-Towns$DifCatholicsZentrum/100
+Towns$Catholics<-Towns$Catholics/100
+
 ##################Verkehrsanstalten#######################
 
 #RankRailWeight
 #RankRailRevenues
 
 #Turn variables into Per Capita values
-Towns$PostRevenues_pc<-Towns$PostRevenues/(Towns$Y1880*1000000)
-Towns$TelegraphRevenues_pc<-Towns$TelegraphRevenues/(Towns$Y1880*1000000)
+Towns$PostRevenues_pc<-Towns$PostRevenues/(Towns$Y1880*1000)
+Towns$TelegraphRevenues_pc<-Towns$TelegraphRevenues/(Towns$Y1880*1000)
 
 Towns$Nachnahme<-(Towns$CollectedNachnahme-Towns$PaidOutNachnahme)/Towns$Y1880
 Towns$RailStation<-as.integer(Towns$RankRailRevenues>0)
-Towns$RailRevenues<-(1/1000)*(Towns$RailRevenues/Towns$Y1880-Towns$Nachnahme)
+Towns$RailRevenues<-(1/1000000)*(Towns$RailRevenues/Towns$Y1880-Towns$Nachnahme)
 Towns$RailWeight<-(Towns$SentRailWeight-(Towns$TotalRailWeight-Towns$SentRailWeight))/Towns$Y1880
 
 
