@@ -368,6 +368,27 @@ Towns$MA_Post_In_1900<-rowSums(MatInvDistTel*(Towns$Post_1900*MainTowns*(1/1000)
 ###############################################################################################
 
 
+
+
+##clean data
+MatInvDist<-as.matrix(MatInvDist)  #confirm data in matrix form
+MatInvDistSq<-as.matrix(MatInvDistSq)  #confirm data in matrix form
+MatInvDistTel<-as.matrix(MatInvDistTel)  #confirm data in matrix form
+
+
+##remove Pfalz from analysis 
+Main<-Towns$Region!='PF'                 
+Towns<-Towns[Main==TRUE,]
+MatInvDistTel<-MatInvDistTel[Main==TRUE,Main==TRUE]
+MatInvDist<-MatInvDist[Main==TRUE,Main==TRUE]
+MatInvDistSq<-MatInvDistSq[Main==TRUE,Main==TRUE]
+
+
+
+
+
+
+
 ###Save Data files############################################################################################
 
 

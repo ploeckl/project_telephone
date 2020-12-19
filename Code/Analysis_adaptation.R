@@ -1,7 +1,9 @@
 rm(list = ls(all = TRUE))
 library(spatialreg)
 library(spdep)
-#source('C:\\Box\\Research\\Telephone\\project_telephone\\Code\\Code_outreg.r')
+library(texreg)
+
+source('C:\\Box\\Research\\Telephone\\project_telephone\\Code\\Code_outreg.r')
 
 
 ##Read in Data sets
@@ -16,15 +18,6 @@ MatInvDistTel<-read.csv("C:\\Box\\Research\\Telephone\\project_telephone\\Data\\
 MatInvDist<-as.matrix(MatInvDist)  #confirm data in matrix form
 MatInvDistSq<-as.matrix(MatInvDistSq)  #confirm data in matrix form
 MatInvDistTel<-as.matrix(MatInvDistTel)  #confirm data in matrix form
-
-
-##remove Pfalz from analysis 
-Main<-Towns$Region!='PF'                 
-Towns<-Towns[Main==TRUE,]
-MatInvDistTel<-MatInvDistTel[Main==TRUE,Main==TRUE]
-MatInvDist<-MatInvDist[Main==TRUE,Main==TRUE]
-MatInvDistSq<-MatInvDistSq[Main==TRUE,Main==TRUE]
-
 
 
 
@@ -52,7 +45,7 @@ Estimation1905_EC<-spatialreg::lagsarlm(SpatModel1905_EC,data=Towns,SpatMatrix19
 
 
 #Market Access + Econ + Politics
-SpatModel1905_PO<-as.formula(Lines1905~-1+Y1905+I(Y1905*MA_Pop_Out_1880)+I(Y1905*Border)+ I(Y1905^2)+I(Y1905*PostRevenues_pc)+I(Y1905*TelegraphRevenues_pc)+I(Y1905*InstallTime) +I(Y1905*Agriculture) +I(Y1905*EmpRatio07)+I(Y1905*IndexDisSim07)+I(Y1905*RailStation)+I(Y1905*RailRevenues)+I(Y1905*StateTax)+I(Y1905*Participation)+I(Y1905*Liberal)+I(Y1905*Socialist)+I(Y1905*Zentrum)+I(Y1905*(Catholics-Zentrum)))#
+SpatModel1905_PO<-as.formula(Lines1905~-1+Y1905+I(Y1905*MA_Pop_Out_1880)+I(Y1905*Border)+ I(Y1905^2)+I(Y1905*PostRevenues_pc)+I(Y1905*TelegraphRevenues_pc)+I(Y1905*InstallTime) +I(Y1905*Agriculture) +I(Y1905*EmpRatio07)+I(Y1905*IndexDisSim07)+I(Y1905*RailStation)+I(Y1905*RailRevenues)+I(Y1905*StateTax)+I(Y1905*Participation)+I(Y1905*Socialist)+I(Y1905*Zentrum)+I(Y1905*(Catholics-Zentrum)))#
 
 Estimation1905_PO<-spatialreg::lagsarlm(SpatModel1905_PO,data=Towns,SpatMatrix1905,tol.solve=1.0e-24)
 
@@ -124,3 +117,20 @@ SpatModel1905public<-as.formula(Public1905~-1+Y1905+I(Y1905*MA_Pop_Out_1880)+I(Y
 Estimation1905public<-spatialreg::lagsarlm(SpatModel1905public,data=Towns,SpatMatrix1905,tol.solve=1.0e-24)
 
 #Estimation1905publicsmall<-spatialreg::lagsarlm(SpatModel1905public,data=Towns[Towns$Lines1900>0,],SpatMatrix1905small,tol.solve=1.0e-24)
+
+
+
+#####################
+
+IndEffect1905<-impacts(Estimation1905, listw=SpatMatrix1905)
+
+
+####################
+ExtLines<- 0.29 * (MatInvDistTel%*%Towns$Lines1905)
+Shares<- ExtLines/Towns$Lines1905
+Shares[Shares>1]<-1
+
+
+##########################################3
+texreg(list(Estimation1905_MA, Estimation1905_EC,Estimation1905_PO,Estimation1905))
+

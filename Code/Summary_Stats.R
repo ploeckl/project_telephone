@@ -6,13 +6,6 @@ library("stargazer")
 Towns<-read.csv("C:\\Box\\Research\\Telephone\\project_telephone\\Data\\Towns.csv", header=TRUE) 
 
 
-##remove Pfalz from analysis 
-Main<-Towns$Region!='PF'                 
-Towns<-Towns[Main==TRUE,]
-MatInvDistTel<-MatInvDistTel[Main==TRUE,Main==TRUE]
-MatInvDist<-MatInvDist[Main==TRUE,Main==TRUE]
-MatInvDistSq<-MatInvDistSq[Main==TRUE,Main==TRUE]
-
 
 TownsHazardCons<-read.csv("C:\\Box\\Research\\Telephone\\project_telephone\\Data\\Stata\\TownsHazardCons.csv") 
 
