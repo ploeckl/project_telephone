@@ -67,7 +67,7 @@ Estimation1905<-spatialreg::lagsarlm(SpatModel1905_AD,data=Towns,SpatMatrix1905,
 Towns$InstallTime1900<-Towns$InstallTime-60
 
 
-SpatModel1900<-as.formula(Lines1900~-1+Y1900+I(Y1900*MA_Post_Out_1880)+I(Y1900*Border) + I(Y1900^2)+I(Y1900*PostRevenues_pc)+I(Y1900*TelegraphRevenues_pc)+I(Y1900*InstallTime1900)  +I(Y1900*Agriculture)+I(Y1900*EmpRatio95)+I(Y1900*IndexDisSim95)+I(Y1900*RailStation)+I(Y1900*RailRevenues)+I(Y1900*StateTax)+I(Y1900*Participation)+I(Y1900*Socialist)+I(Y1900*Zentrum)+I(Y1900*(Catholics-Zentrum))+I(Y1900*City)+I(Y1900*PopShare1900)+I(Y1900*Fringe))
+SpatModel1900<-as.formula(Lines1900~-1+Y1900+I(Y1900*MA_Pop_Out_1880)+I(Y1900*Border) + I(Y1900^2)+I(Y1900*PostRevenues_pc)+I(Y1900*TelegraphRevenues_pc)+I(Y1900*InstallTime1900)  +I(Y1900*Agriculture)+I(Y1900*EmpRatio95)+I(Y1900*IndexDisSim95)+I(Y1900*RailStation)+I(Y1900*RailRevenues)+I(Y1900*StateTax)+I(Y1900*Participation)+I(Y1900*Socialist)+I(Y1900*Zentrum)+I(Y1900*(Catholics-Zentrum))+I(Y1900*City)+I(Y1900*PopShare1900)+I(Y1900*Fringe))
 
 
 
@@ -124,6 +124,9 @@ Estimation1905public<-spatialreg::lagsarlm(SpatModel1905public,data=Towns,SpatMa
 
 IndEffect1905<-impacts(Estimation1905, listw=SpatMatrix1905)
 
+IndEffect1905$direct<-round(IndEffect1905$direct,digits=3)
+IndEffect1905$indirect<-round(IndEffect1905$indirect,digits=3)
+IndEffect1905$total<-round(IndEffect1905$total,digits=3)
 
 ####################
 ExtLines<- 0.29 * (MatInvDistTel%*%Towns$Lines1905)
@@ -132,5 +135,8 @@ Shares[Shares>1]<-1
 
 
 ##########################################3
-texreg(list(Estimation1905_MA, Estimation1905_EC,Estimation1905_PO,Estimation1905))
+tex1<-texreg(list(Estimation1905_MA, Estimation1905_EC,Estimation1905_PO,Estimation1905))
 
+tex2<-texreg(list(Estimation1900,Estimation1905small))
+
+tex3<-texreg(list(Estimation1905privat,Estimation1905gov,Estimation1905public))
