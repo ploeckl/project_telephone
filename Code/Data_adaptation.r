@@ -345,14 +345,25 @@ Towns$MA_Post_Out_1900<-MatInvDistTel%*%(Towns$Post_1900*MainTowns)*(1/1000)
 #Towns$MarketSize1905<-rowSums(MatInvDistSq*(Towns$Y1905*MainTowns))
 
 
-Towns$MA_Pop_In_1880<-rowSums(MatInvDist*(Towns$Y1880*MainTowns))
-Towns$MA_Pop_In_1896<-rowSums(MatInvDist*(Towns$Y1896*MainTowns))
-Towns$MA_Pop_In_1900<-rowSums(MatInvDist*(Towns$Y1900*MainTowns))
-Towns$MA_Pop_In_1905<-rowSums(MatInvDist*(Towns$Y1905*MainTowns))
+#Use inbound variables for robustness
+
+#Towns$MA_Pop_In_1880<-rowSums(MatInvDist*(Towns$Y1880*MainTowns))
+#Towns$MA_Pop_In_1896<-rowSums(MatInvDist*(Towns$Y1896*MainTowns))
+#Towns$MA_Pop_In_1900<-rowSums(MatInvDist*(Towns$Y1900*MainTowns))
+#Towns$MA_Pop_In_1905<-rowSums(MatInvDist*(Towns$Y1905*MainTowns)
+
+Towns$MA_Pop_In_1880<-MatInvDistTel%*%(Towns$Y1880*MainTowns)
+Towns$MA_Pop_In_1896<-MatInvDistTel%*%(Towns$Y1896*MainTowns)
+Towns$MA_Pop_In_1900<-MatInvDistTel%*%(Towns$Y1900*MainTowns)
+Towns$MA_Pop_In_1905<-MatInvDistTel%*%(Towns$Y1905*MainTowns)
 
 
-Towns$MA_Post_In_1880<-rowSums(MatInvDistTel*(Towns$PostRevenues*MainTowns*(1/1000)))
-Towns$MA_Post_In_1900<-rowSums(MatInvDistTel*(Towns$Post_1900*MainTowns*(1/1000)))
+
+#Towns$MA_Post_In_1880<-rowSums(MatInvDistTel*(Towns$PostRevenues*MainTowns*(1/1000)))
+#Towns$MA_Post_In_1900<-rowSums(MatInvDistTel*(Towns$Post_1900*MainTowns*(1/1000)))
+
+Towns$MA_Post_In_1880<-MatInvDist%*%(Towns$PostRevenues*MainTowns)*(1/1000)
+Towns$MA_Post_In_1900<-MatInvDist%*%(Towns$Post_1900*MainTowns)*(1/1000)
 
 
 
